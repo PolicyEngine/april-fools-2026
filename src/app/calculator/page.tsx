@@ -121,31 +121,95 @@ function Calculator({
             />
             <div className="absolute -inset-1 rounded-2xl bg-teal-500/[0.02] blur-sm pointer-events-none" />
 
-            <div className="relative p-4 font-mono text-[11px] leading-relaxed h-[195px]">
-              {screenLines.map((line, i) => (
-                <div
-                  key={i}
-                  className={`flex justify-between ${line.bright ? "text-teal-500 font-bold" : ""}`}
-                  style={{
-                    color: line.bright
-                      ? undefined
-                      : line.dim
-                        ? "color-mix(in srgb, var(--chart-1) 25%, transparent)"
-                        : line.warn
-                          ? "var(--warning)"
-                          : "color-mix(in srgb, var(--chart-1) 65%, transparent)",
-                  }}
-                >
-                  <span>{line.label}</span>
-                  <span
-                    style={{
-                      color: line.warn ? "var(--warning)" : "var(--chart-1)",
-                    }}
+            <div className="relative p-3 font-mono text-[9px] leading-snug h-[195px] flex flex-col">
+              {/* Header */}
+              <div className="text-teal-500 font-bold text-[10px] mb-1">
+                INCOME CHANGE BY DECILE
+              </div>
+
+              {/* TI-84 style pixel bar chart */}
+              <svg
+                viewBox="0 0 240 70"
+                className="w-full flex-1"
+                style={{ imageRendering: "pixelated" }}
+              >
+                {/* Grid lines */}
+                {[0, 17.5, 35, 52.5, 70].map((y) => (
+                  <line
+                    key={y}
+                    x1={25}
+                    y1={y}
+                    x2={240}
+                    y2={y}
+                    stroke="var(--chart-1)"
+                    strokeOpacity={0.12}
+                    strokeWidth={0.8}
+                  />
+                ))}
+                {/* Zero line */}
+                <line
+                  x1={25}
+                  y1={35}
+                  x2={240}
+                  y2={35}
+                  stroke="var(--chart-1)"
+                  strokeOpacity={0.3}
+                  strokeWidth={1}
+                />
+                {/* Y-axis */}
+                <line
+                  x1={25}
+                  y1={0}
+                  x2={25}
+                  y2={70}
+                  stroke="var(--chart-1)"
+                  strokeOpacity={0.3}
+                  strokeWidth={1}
+                />
+                {/* Y-axis labels */}
+                <text x={22} y={5} textAnchor="end" fill="var(--chart-1)" fillOpacity={0.4} fontSize={5}>+8%</text>
+                <text x={22} y={37} textAnchor="end" fill="var(--chart-1)" fillOpacity={0.4} fontSize={5}>0</text>
+                <text x={22} y={69} textAnchor="end" fill="var(--chart-1)" fillOpacity={0.4} fontSize={5}>-4%</text>
+                {/* Decile bars — chunky, pixelated look */}
+                {[8.2, 6.5, 5.1, 4.2, 3.0, 2.1, 1.2, 0.4, -0.8, -3.2].map(
+                  (pct, i) => {
+                    const barH = Math.abs(pct) * (35 / 8);
+                    const barY = pct > 0 ? 35 - barH : 35;
+                    return (
+                      <rect
+                        key={i}
+                        x={30 + i * 21}
+                        y={barY}
+                        width={17}
+                        height={barH}
+                        fill={pct > 0 ? "var(--chart-1)" : "var(--destructive)"}
+                        opacity={0.85}
+                        rx={0}
+                      />
+                    );
+                  },
+                )}
+                {/* X-axis labels */}
+                {Array.from({ length: 10 }).map((_, i) => (
+                  <text
+                    key={i}
+                    x={38.5 + i * 21}
+                    y={70}
+                    textAnchor="middle"
+                    fill="var(--chart-1)"
+                    fillOpacity={0.35}
+                    fontSize={4.5}
                   >
-                    {line.value}
-                  </span>
-                </div>
-              ))}
+                    {i + 1}
+                  </text>
+                ))}
+              </svg>
+
+              {/* Bottom stats row */}
+              <div className="flex justify-between mt-1" style={{ color: "color-mix(in srgb, var(--chart-1) 60%, transparent)" }}>
+                <span>Cost: <span style={{ color: "var(--warning)" }}>$2.8T</span></span>
+                <span>Poverty: <span className="text-teal-500">-45%</span></span>
+              </div>
             </div>
           </div>
 
@@ -532,62 +596,86 @@ export default function CalculatorPage() {
           </p>
         </Reveal>
 
-        <Reveal delay={0.2} className="mt-16 w-full max-w-[560px]">
+        <Reveal delay={0.2} className="mt-16 w-full max-w-[600px]">
           <div className="relative rounded-3xl bg-[#040e0e] overflow-hidden border border-teal-500/10 shadow-[0_0_80px_rgba(49,151,149,0.06),inset_0_2px_12px_rgba(0,0,0,0.5)]">
             <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] via-transparent to-transparent pointer-events-none rounded-3xl" />
-            <div className="p-8 md:p-10 font-mono text-sm md:text-base leading-loose">
-              <div className="font-bold mb-2 text-teal-500">
-                BASELINE &rarr; REFORM
+            {/* Scanlines */}
+            <div
+              className="absolute inset-0 pointer-events-none opacity-[0.025]"
+              style={{
+                backgroundImage:
+                  "repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,0.5) 3px,rgba(255,255,255,0.5) 6px)",
+              }}
+            />
+            <div className="relative p-8 md:p-10 font-mono">
+              {/* Title */}
+              <div className="text-teal-500 font-bold text-sm mb-1">
+                LORENZ CURVE — BASELINE vs REFORM
               </div>
               <div
-                className="mb-4 text-xs"
+                className="text-xs mb-4"
                 style={{
                   color:
-                    "color-mix(in srgb, var(--chart-1) 25%, transparent)",
+                    "color-mix(in srgb, var(--chart-1) 40%, transparent)",
                 }}
               >
-                &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;
+                Cumulative share of income by population percentile
               </div>
-              <div
-                className="space-y-3"
-                style={{
-                  color:
-                    "color-mix(in srgb, var(--chart-1) 65%, transparent)",
-                }}
+
+              {/* TI-84 style Lorenz curve */}
+              <svg
+                viewBox="0 0 320 200"
+                className="w-full"
+                style={{ imageRendering: "auto" }}
               >
-                {(
-                  [
-                    ["Poverty rate", "11.1% \u2192 6.2%", false],
-                    ["Child poverty", "15.7% \u2192 4.1%", false],
-                    ["Senior poverty", "9.8% \u2192 5.5%", false],
-                    ["Gini index", "0.41 \u2192 0.33", false],
-                    ["Budget impact", "+$2.8T", true],
-                    ["Winners", "78% of households", false],
-                  ] as const
-                ).map(([label, value, isWarn], i) => (
-                  <div key={i} className="flex justify-between">
-                    <span>{label}</span>
-                    <span
-                      style={{
-                        color: isWarn
-                          ? "var(--warning)"
-                          : "var(--chart-1)",
-                      }}
-                    >
-                      {value}
-                    </span>
-                  </div>
+                {/* Grid */}
+                {[0, 50, 100, 150, 200].map((y) => (
+                  <line key={`h${y}`} x1={40} y1={y} x2={310} y2={y} stroke="var(--chart-1)" strokeOpacity={0.1} strokeWidth={0.5} />
                 ))}
-              </div>
-              <div
-                className="mt-5 text-xs"
-                style={{
-                  color:
-                    "color-mix(in srgb, var(--chart-1) 25%, transparent)",
-                }}
-              >
-                ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░ 78% better off
-              </div>
+                {[40, 94, 148, 202, 256, 310].map((x) => (
+                  <line key={`v${x}`} x1={x} y1={0} x2={x} y2={200} stroke="var(--chart-1)" strokeOpacity={0.1} strokeWidth={0.5} />
+                ))}
+                {/* Axes */}
+                <line x1={40} y1={0} x2={40} y2={200} stroke="var(--chart-1)" strokeOpacity={0.35} strokeWidth={1} />
+                <line x1={40} y1={200} x2={310} y2={200} stroke="var(--chart-1)" strokeOpacity={0.35} strokeWidth={1} />
+                {/* Y labels */}
+                <text x={36} y={5} textAnchor="end" fill="var(--chart-1)" fillOpacity={0.35} fontSize={7}>100%</text>
+                <text x={36} y={105} textAnchor="end" fill="var(--chart-1)" fillOpacity={0.35} fontSize={7}>50%</text>
+                <text x={36} y={200} textAnchor="end" fill="var(--chart-1)" fillOpacity={0.35} fontSize={7}>0</text>
+                {/* X labels */}
+                <text x={40} y={212} textAnchor="middle" fill="var(--chart-1)" fillOpacity={0.35} fontSize={7}>0</text>
+                <text x={175} y={212} textAnchor="middle" fill="var(--chart-1)" fillOpacity={0.35} fontSize={7}>50%</text>
+                <text x={310} y={212} textAnchor="middle" fill="var(--chart-1)" fillOpacity={0.35} fontSize={7}>100%</text>
+                {/* Perfect equality line */}
+                <line x1={40} y1={200} x2={310} y2={0} stroke="var(--chart-1)" strokeOpacity={0.2} strokeWidth={1} strokeDasharray="4 3" />
+                {/* Baseline Lorenz (more bowed = more inequality) */}
+                <polyline
+                  points="40,200 67,196 94,190 121,182 148,170 175,154 202,132 229,104 256,68 283,30 310,0"
+                  fill="none"
+                  stroke="var(--chart-5)"
+                  strokeWidth={2.5}
+                  strokeOpacity={0.6}
+                />
+                {/* Reform Lorenz (less bowed = less inequality) */}
+                <polyline
+                  points="40,200 67,194 94,185 121,174 148,158 175,138 202,113 229,83 256,52 283,22 310,0"
+                  fill="none"
+                  stroke="var(--chart-1)"
+                  strokeWidth={2.5}
+                  strokeOpacity={0.9}
+                />
+                {/* Shaded area between curves */}
+                <polygon
+                  points="40,200 67,196 94,190 121,182 148,170 175,154 202,132 229,104 256,68 283,30 310,0 283,22 256,52 229,83 202,113 175,138 148,158 121,174 94,185 67,194"
+                  fill="var(--chart-1)"
+                  fillOpacity={0.08}
+                />
+                {/* Legend */}
+                <line x1={50} y1={12} x2={70} y2={12} stroke="var(--chart-5)" strokeWidth={2} strokeOpacity={0.6} />
+                <text x={74} y={15} fill="var(--chart-1)" fillOpacity={0.5} fontSize={7}>Baseline (Gini 0.41)</text>
+                <line x1={50} y1={24} x2={70} y2={24} stroke="var(--chart-1)" strokeWidth={2} strokeOpacity={0.9} />
+                <text x={74} y={27} fill="var(--chart-1)" fillOpacity={0.7} fontSize={7}>Reform (Gini 0.33)</text>
+              </svg>
             </div>
           </div>
         </Reveal>
