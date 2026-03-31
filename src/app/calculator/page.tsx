@@ -110,8 +110,8 @@ function Calculator({
     <div className="relative">
       {showGlow && (
         <div
-          className="absolute -inset-20 rounded-full blur-[90px] opacity-[0.12]"
-          style={{ background: "rgba(165, 188, 104, 0.55)" }}
+          className="absolute -inset-24 rounded-full blur-[100px] opacity-[0.18]"
+          style={{ background: "rgba(56, 178, 172, 0.5)" }}
           aria-hidden
         />
       )}
@@ -356,7 +356,7 @@ function DeviceSwatch({
       </div>
       <p className="text-sm mt-5">{name}</p>
       {limited && (
-        <p className="text-[10px] text-teal-500 mt-1">Limited edition</p>
+        <p className="text-[10px] text-teal-400 mt-1">Limited edition</p>
       )}
     </div>
   );
@@ -475,7 +475,7 @@ export default function CalculatorPage() {
   const [submitted, setSubmitted] = useState(false);
 
   return (
-    <div className="bg-black text-[#f5f5f7] min-h-screen selection:bg-teal-500/30">
+    <div className="bg-[#050508] text-[#f5f5f7] min-h-screen selection:bg-teal-400/30">
       {/* ─── Nav ─────────────────────────────────────────────────── */}
       <nav
         className="sticky top-0 z-50 backdrop-blur-xl border-b border-white/[0.08]"
@@ -497,7 +497,7 @@ export default function CalculatorPage() {
           </div>
           <a
             href="#preorder"
-            className="text-xs text-teal-500 hover:underline"
+            className="text-xs text-teal-400 hover:underline"
           >
             Pre-order &rarr;
           </a>
@@ -505,7 +505,10 @@ export default function CalculatorPage() {
       </nav>
 
       {/* ─── Hero (device visible above fold) ────────────────────── */}
-      <section className="min-h-[calc(100vh-48px)] flex items-center justify-center px-6 py-12">
+      <section className="min-h-[calc(100vh-48px)] flex items-center justify-center px-6 py-12 relative overflow-hidden">
+        {/* Atmospheric color bleed */}
+        <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-teal-500/[0.06] blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] rounded-full bg-teal-600/[0.04] blur-[100px] pointer-events-none" />
         <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-10 lg:gap-20">
           {/* Copy */}
           <motion.div
@@ -539,7 +542,7 @@ export default function CalculatorPage() {
               <p className="text-lg text-muted-foreground">From $1,299</p>
               <a
                 href="#preorder"
-                className="text-lg text-teal-500 hover:underline"
+                className="text-lg text-teal-400 hover:underline"
               >
                 Pre-order &rarr;
               </a>
@@ -597,7 +600,7 @@ export default function CalculatorPage() {
                 ] as const
               ).map(([num, label], i) => (
                 <Reveal key={label} delay={0.1 * (i + 1)}>
-                  <p className="text-3xl md:text-4xl font-bold text-teal-500">
+                  <p className="text-3xl md:text-4xl font-bold text-teal-400">
                     {num}
                   </p>
                   <p className="text-xs text-muted-foreground mt-1">
@@ -619,7 +622,8 @@ export default function CalculatorPage() {
       </section>
 
       {/* ─── Display ─────────────────────────────────────────────── */}
-      <section className="min-h-[80vh] flex flex-col items-center justify-center px-6 py-32 text-center bg-[#0a0a0a]">
+      <section className="min-h-[80vh] flex flex-col items-center justify-center px-6 py-32 text-center bg-[#08090c] relative overflow-hidden">
+        <div className="absolute top-[20%] left-[50%] -translate-x-1/2 w-[800px] h-[400px] rounded-full bg-teal-500/[0.04] blur-[100px] pointer-events-none" />
         <Reveal>
           <p className="text-sm text-muted-foreground tracking-wide mb-4">
             Display
@@ -662,7 +666,7 @@ export default function CalculatorPage() {
           </p>
         </Reveal>
         <Reveal>
-          <p className="text-[10rem] md:text-[14rem] lg:text-[18rem] font-bold leading-none tracking-tighter bg-gradient-to-b from-white to-white/30 bg-clip-text text-transparent">
+          <p className="text-[10rem] md:text-[14rem] lg:text-[18rem] font-bold leading-none tracking-tighter bg-gradient-to-b from-teal-300 via-teal-400 to-teal-600/30 bg-clip-text text-transparent">
             20
           </p>
         </Reveal>
@@ -677,7 +681,8 @@ export default function CalculatorPage() {
       </section>
 
       {/* ─── PolicyOS ────────────────────────────────────────────── */}
-      <section className="min-h-[80vh] flex flex-col items-center justify-center px-6 py-32 text-center bg-[#0a0a0a]">
+      <section className="min-h-[80vh] flex flex-col items-center justify-center px-6 py-32 text-center bg-[#08090c] relative overflow-hidden">
+        <div className="absolute bottom-[10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-teal-600/[0.05] blur-[120px] pointer-events-none" />
         <Reveal>
           <p className="text-sm text-muted-foreground tracking-wide mb-4">
             Software
@@ -779,7 +784,7 @@ export default function CalculatorPage() {
       </section>
 
       {/* ─── Tech specs ──────────────────────────────────────────── */}
-      <section className="px-6 py-32 bg-[#0a0a0a]">
+      <section className="px-6 py-32 bg-[#08090c]">
         <div className="max-w-2xl mx-auto">
           <Reveal>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-center mb-16">
@@ -863,17 +868,17 @@ export default function CalculatorPage() {
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 px-5 py-3 rounded-full bg-white/[0.08] border border-white/[0.15] text-white placeholder:text-white/30 focus:outline-none focus:border-teal-500 transition-colors text-sm"
+                className="flex-1 px-5 py-3 rounded-full bg-white/[0.08] border border-white/[0.15] text-white placeholder:text-white/30 focus:outline-none focus:border-teal-400 transition-colors text-sm"
               />
               <button
                 type="submit"
-                className="px-6 py-3 bg-teal-500 text-white rounded-full font-medium hover:bg-teal-600 transition-colors text-sm whitespace-nowrap"
+                className="px-6 py-3 bg-teal-400 text-black font-semibold rounded-full hover:bg-teal-300 transition-colors text-sm whitespace-nowrap"
               >
                 Notify me
               </button>
             </form>
           ) : (
-            <p className="mt-10 text-teal-500 text-lg">
+            <p className="mt-10 text-teal-400 text-lg">
               You&apos;re on the list! We&apos;ll let you know when it
               ships.
             </p>
