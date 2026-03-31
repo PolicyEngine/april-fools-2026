@@ -43,6 +43,12 @@ function Reveal({
 
 /* ── Calculator device ─────────────────────────────────────────────── */
 
+type CalculatorKey = {
+  label: string;
+  sub?: string;
+  variant?: "dark" | "light" | "accent" | "teal" | "warning";
+};
+
 function Calculator({
   bodyFrom = "#2d2d31",
   bodyVia = "#232327",
@@ -69,107 +75,331 @@ function Calculator({
     { label: "Households better off", value: "78%" },
   ];
 
-  const buttons = [
-    ["GINI", "PVTY", "REV", "COST"],
-    ["7", "8", "9", "UBI"],
-    ["4", "5", "6", "CTC"],
-    ["1", "2", "3", "EITC"],
-    ["0", ".", "REFORM", "SIM"],
+  const topDeck: CalculatorKey[][] = [
+    [
+      { label: "2nd", sub: "INS", variant: "accent" },
+      { label: "ALPHA", sub: "LOCK", variant: "teal" },
+      { label: "MODE", sub: "SET", variant: "light" },
+      { label: "STAT", sub: "DATA", variant: "light" },
+      { label: "DEL", sub: "CLR", variant: "warning" },
+    ],
+    [
+      { label: "Y=", sub: "PLOT", variant: "light" },
+      { label: "WIN", sub: "VIEW", variant: "light" },
+      { label: "ZOOM", sub: "SCALE", variant: "light" },
+      { label: "TRACE", sub: "READ", variant: "light" },
+      { label: "GRAPH", sub: "RUN", variant: "teal" },
+    ],
   ];
 
-  const isFn = (l: string) => ["GINI", "PVTY", "REV", "COST"].includes(l);
-  const isAction = (l: string) =>
-    ["UBI", "CTC", "EITC", "REFORM", "SIM"].includes(l);
+  const leftCluster: CalculatorKey[] = [
+    { label: "MATH", sub: "fn", variant: "dark" },
+    { label: "APPS", sub: "pkg", variant: "dark" },
+    { label: "PRGM", sub: "ops", variant: "dark" },
+    { label: "VARS", sub: "db", variant: "dark" },
+  ];
+
+  const rightCluster: CalculatorKey[] = [
+    { label: "MATRIX", sub: "tab", variant: "dark" },
+    { label: "TABLE", sub: "cmp", variant: "dark" },
+    { label: "STO→", sub: "save", variant: "dark" },
+    { label: "CLEAR", sub: "esc", variant: "warning" },
+  ];
+
+  const keypadRows: CalculatorKey[][] = [
+    [
+      { label: "7", variant: "dark" },
+      { label: "8", variant: "dark" },
+      { label: "9", variant: "dark" },
+      { label: "÷", variant: "light" },
+      { label: "UBI", sub: "sim", variant: "teal" },
+    ],
+    [
+      { label: "4", variant: "dark" },
+      { label: "5", variant: "dark" },
+      { label: "6", variant: "dark" },
+      { label: "×", variant: "light" },
+      { label: "CTC", sub: "fam", variant: "teal" },
+    ],
+    [
+      { label: "1", variant: "dark" },
+      { label: "2", variant: "dark" },
+      { label: "3", variant: "dark" },
+      { label: "−", variant: "light" },
+      { label: "EITC", sub: "work", variant: "teal" },
+    ],
+    [
+      { label: "0", variant: "dark" },
+      { label: ".", variant: "dark" },
+      { label: "(", variant: "dark" },
+      { label: ")", variant: "dark" },
+      { label: "+", variant: "light" },
+    ],
+    [
+      { label: "ANS", sub: "prev", variant: "dark" },
+      { label: "VAR", sub: "adj", variant: "dark" },
+      { label: "COST", sub: "10y", variant: "dark" },
+      { label: "REFORM", sub: "bill", variant: "accent" },
+      { label: "ENTER", sub: "run", variant: "teal" },
+    ],
+  ];
+
+  const keyTreatments: Record<
+    NonNullable<CalculatorKey["variant"]>,
+    { className: string; style: React.CSSProperties }
+  > = {
+    dark: {
+      className: "border-black/45 text-white/92",
+      style: {
+        backgroundImage: "linear-gradient(180deg, #3b4149, #2a2f35)",
+      },
+    },
+    light: {
+      className: "border-[#7b8188] text-[#121519]",
+      style: {
+        backgroundImage: "linear-gradient(180deg, #c9ced6, #a8afb8)",
+      },
+    },
+    accent: {
+      className: "border-[#8d5f1e] text-[#fff4d4]",
+      style: {
+        backgroundImage: "linear-gradient(180deg, #d3a347, #a56e22)",
+      },
+    },
+    teal: {
+      className: "border-[#254a4b] text-[#eefdfd]",
+      style: {
+        backgroundImage: "linear-gradient(180deg, #4f8f91, #2f6566)",
+      },
+    },
+    warning: {
+      className: "border-[#6a3535] text-[#fff1ee]",
+      style: {
+        backgroundImage: "linear-gradient(180deg, #925353, #653636)",
+      },
+    },
+  };
+
+  const renderKey = (
+    key: CalculatorKey,
+    {
+      compact = false,
+      tiny = false,
+    }: {
+      compact?: boolean;
+      tiny?: boolean;
+    } = {},
+  ) => {
+    const treatment = keyTreatments[key.variant ?? "dark"];
+
+    return (
+      <button
+        key={key.label}
+        type="button"
+        className={`relative flex items-center justify-center rounded-[14px] border font-semibold shadow-[0_5px_10px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(255,255,255,0.15)] transition-transform active:translate-y-[1px] ${
+          compact ? "h-[34px] text-[10px]" : "h-[42px] text-[11px]"
+        } ${tiny ? "text-[10px]" : ""} ${treatment.className}`}
+        style={treatment.style}
+      >
+        {key.sub && (
+          <span className="absolute left-2 top-1 text-[7px] font-bold uppercase tracking-[0.18em] opacity-65">
+            {key.sub}
+          </span>
+        )}
+        <span
+          className={`${key.sub ? (compact ? "mt-2.5" : "mt-3") : ""} tracking-[0.08em]`}
+        >
+          {key.label}
+        </span>
+      </button>
+    );
+  };
 
   return (
     <div className="relative">
       {showGlow && (
         <div
-          className="absolute -inset-20 rounded-full blur-[80px] bg-teal-500 opacity-[0.08]"
+          className="absolute -inset-20 rounded-full blur-[90px] opacity-[0.12]"
+          style={{ background: "rgba(165, 188, 104, 0.55)" }}
           aria-hidden
         />
       )}
 
       <div
-        className="relative w-[320px] rounded-[36px] shadow-[0_60px_120px_rgba(0,0,0,0.6),0_0_0_0.5px_rgba(255,255,255,0.08)]"
+        className="relative w-[344px] overflow-hidden px-4 pb-6 pt-5 shadow-[0_55px_120px_rgba(0,0,0,0.62),0_8px_20px_rgba(0,0,0,0.35)]"
         style={{
-          background: `linear-gradient(to bottom, ${bodyFrom}, ${bodyVia}, ${bodyTo})`,
+          borderRadius: "40px 40px 34px 34px",
+          backgroundImage: `linear-gradient(180deg, ${bodyFrom}, ${bodyVia} 48%, ${bodyTo}), radial-gradient(circle at 18% 10%, rgba(255,255,255,0.18), transparent 28%), repeating-linear-gradient(135deg, rgba(255,255,255,0.018) 0 10px, rgba(0,0,0,0.018) 10px 20px)`,
         }}
       >
-        {/* Edge chamfer */}
-        <div className="absolute inset-0 rounded-[36px] border border-white/[0.07] pointer-events-none" />
-        <div className="absolute inset-[1px] rounded-[35px] border border-black/30 pointer-events-none" />
-        <div className="absolute inset-0 rounded-[36px] bg-gradient-to-br from-white/[0.05] via-transparent to-transparent pointer-events-none" />
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            borderRadius: "40px 40px 34px 34px",
+            boxShadow:
+              "inset 0 1px 0 rgba(255,255,255,0.16), inset 0 -16px 24px rgba(0,0,0,0.24)",
+          }}
+        />
+        <div
+          className="absolute inset-[1px] pointer-events-none border border-black/28"
+          style={{ borderRadius: "39px 39px 33px 33px" }}
+        />
+        <div className="absolute left-10 right-10 top-3 h-[9px] rounded-full bg-black/18 blur-[3px] pointer-events-none" />
+        <div className="absolute left-2.5 top-[104px] bottom-16 w-[7px] rounded-full bg-black/20 pointer-events-none" />
+        <div className="absolute right-2.5 top-[104px] bottom-16 w-[7px] rounded-full bg-white/[0.05] pointer-events-none" />
 
-        {/* Power button */}
-        <div className="absolute -right-[2.5px] top-[115px] w-[3px] h-[50px] rounded-r-[2px] bg-gradient-to-b from-[#444] via-[#333] to-[#444] shadow-[2px_0_4px_rgba(0,0,0,0.3)]" />
-        {/* Volume */}
-        <div className="absolute -left-[2.5px] top-[100px] w-[3px] h-[28px] rounded-l-[2px] bg-gradient-to-b from-[#444] via-[#333] to-[#444] shadow-[-2px_0_4px_rgba(0,0,0,0.3)]" />
-        <div className="absolute -left-[2.5px] top-[138px] w-[3px] h-[28px] rounded-l-[2px] bg-gradient-to-b from-[#444] via-[#333] to-[#444] shadow-[-2px_0_4px_rgba(0,0,0,0.3)]" />
+        <div className="relative rounded-[28px] border border-black/35 bg-[linear-gradient(180deg,rgba(103,108,118,0.26),rgba(35,37,41,0.18))] px-4 pb-4 pt-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),inset_0_-14px_20px_rgba(0,0,0,0.18)]">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-[9px] font-semibold uppercase tracking-[0.34em] text-white/55">
+                PolicyEngine
+              </p>
+              <p className="mt-2 text-[27px] font-black leading-none tracking-[0.16em] text-white/92">
+                CALCULATOR
+              </p>
+              <p className="mt-1 text-[8px] uppercase tracking-[0.32em] text-white/40">
+                graphing microsimulator PE-84
+              </p>
+            </div>
 
-        <div className="p-5 pt-6 pb-5 flex flex-col">
-          {/* Screen — authentic TI-84 monochrome LCD */}
-          <div className="relative rounded-2xl overflow-hidden shadow-[inset_0_2px_12px_rgba(0,0,0,0.3),0_0_0_0.5px_rgba(255,255,255,0.04)] bg-teal-50">
-            {/* Glass reflection */}
-            <div className="absolute inset-0 bg-gradient-to-br from-white/[0.12] via-transparent to-transparent pointer-events-none z-10 rounded-2xl" />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/ti84-deciles.png"
-              alt="Income change by decile — TI-84 style bar chart"
-              className="w-full h-[195px] object-cover"
-              style={{ imageRendering: "pixelated" }}
-            />
+            <div className="w-[92px] shrink-0">
+              <p className="text-right text-[7px] font-semibold uppercase tracking-[0.3em] text-white/35">
+                Solar assist
+              </p>
+              <div
+                className="mt-2 h-[26px] rounded-[5px] border border-black/45 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(180deg, #1e242a, #0d1115), repeating-linear-gradient(90deg, rgba(255,255,255,0.12) 0 1px, transparent 1px 14px)",
+                }}
+              />
+            </div>
           </div>
 
-          {/* Buttons */}
-          <div className="grid grid-cols-4 gap-[7px] mt-5">
-            {buttons.flat().map((label, i) => (
-              <button
-                key={i}
-                className={`h-[46px] rounded-xl text-[11px] font-semibold flex items-center justify-center
-                  shadow-[0_3px_6px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.07)]
-                  active:shadow-[inset_0_2px_6px_rgba(0,0,0,0.4)] active:translate-y-[1px]
-                  transition-all
-                  ${
-                    isFn(label)
-                      ? "bg-teal-500 text-white"
-                      : isAction(label)
-                        ? "text-white"
-                        : "bg-[#38383c] text-white/90"
-                  }`}
-                style={
-                  isAction(label)
-                    ? { background: "var(--chart-2)" }
-                    : isFn(label)
-                      ? {}
-                      : {
-                          backgroundImage:
-                            "linear-gradient(to bottom, #404045, #353539)",
-                        }
-                }
-              >
-                {label}
-              </button>
+          <div className="mt-4 rounded-[24px] border border-black/40 bg-[#212429] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),inset_0_18px_18px_rgba(255,255,255,0.02),inset_0_-18px_20px_rgba(0,0,0,0.28)]">
+            <div className="rounded-[18px] border border-[#7b8b50] bg-[linear-gradient(180deg,#dbe4a8,#bdcb75_42%,#9caa5d)] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),inset_0_-3px_10px_rgba(61,80,22,0.28)]">
+              <div className="flex items-center justify-between text-[7px] font-black uppercase tracking-[0.28em] text-[#263313]/70">
+                <span>Run</span>
+                <span>Float</span>
+                <span>Rad</span>
+                <span>Sim</span>
+              </div>
+
+              <div className="mt-2 overflow-hidden rounded-[12px] border border-[#6d7c45] bg-[#afbd67] shadow-[inset_0_1px_2px_rgba(29,42,11,0.24)]">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),transparent_24%,rgba(36,49,14,0.05)_54%,transparent_78%)] pointer-events-none" />
+                  <div className="absolute inset-0 opacity-[0.12] pointer-events-none [background-image:linear-gradient(rgba(32,45,14,0.4)_1px,transparent_1px),linear-gradient(90deg,rgba(32,45,14,0.35)_1px,transparent_1px)] [background-size:12px_12px]" />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/ti84-deciles.png"
+                    alt="Income change by decile — TI-84 style bar chart"
+                    className="h-[98px] w-full object-cover opacity-[0.92]"
+                    style={{ imageRendering: "pixelated" }}
+                  />
+                </div>
+
+                <div className="border-t border-[#6d7c45] px-2 py-2 font-mono text-[8px] leading-[1.35] text-[#253213]/85">
+                  {screenLines.map((line) => (
+                    <div
+                      key={`${line.label}-${line.value}`}
+                      className={`flex items-center justify-between ${
+                        line.bright
+                          ? "font-black tracking-[0.12em]"
+                          : line.dim
+                            ? "opacity-45"
+                            : "font-semibold"
+                      } ${line.warn ? "text-[#55361c]" : ""}`}
+                    >
+                      <span>{line.label}</span>
+                      {line.value ? <span>{line.value}</span> : null}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-3 flex items-center justify-between px-1 text-[8px] font-semibold uppercase tracking-[0.28em] text-white/30">
+              <span>Analyze</span>
+              <span>Model</span>
+              <span>Compare</span>
+            </div>
+          </div>
+
+          <div className="mt-4 space-y-2">
+            {topDeck.map((row, rowIndex) => (
+              <div key={rowIndex} className="grid grid-cols-5 gap-2">
+                {row.map((key) => renderKey(key, { compact: true }))}
+              </div>
             ))}
           </div>
 
-          {/* Bottom details */}
-          <div className="flex flex-col items-center gap-[6px] mt-5">
-            <div className="flex gap-[4px]">
-              {Array.from({ length: 14 }).map((_, i) => (
+          <div className="mt-3 grid grid-cols-[1fr_auto_1fr] items-center gap-3">
+            <div className="grid grid-cols-2 gap-2">
+              {leftCluster.map((key) => renderKey(key))}
+            </div>
+
+            <div className="rounded-[20px] border border-black/40 bg-[linear-gradient(180deg,#30353b,#23272c)] p-2 shadow-[0_8px_16px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.07)]">
+              <div className="grid grid-cols-3 gap-1.5">
+                <div />
+                <button
+                  type="button"
+                  className="flex h-[30px] w-[30px] items-center justify-center rounded-xl border border-black/40 bg-[linear-gradient(180deg,#444a52,#2f343a)] text-white/85 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+                >
+                  ▲
+                </button>
+                <div />
+                <button
+                  type="button"
+                  className="flex h-[30px] w-[30px] items-center justify-center rounded-xl border border-black/40 bg-[linear-gradient(180deg,#444a52,#2f343a)] text-white/85 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+                >
+                  ◀
+                </button>
+                <div className="flex h-[30px] w-[30px] items-center justify-center rounded-full border border-black/45 bg-[linear-gradient(180deg,#1f2327,#0f1114)] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
+                  <div className="h-2.5 w-2.5 rounded-full bg-white/30" />
+                </div>
+                <button
+                  type="button"
+                  className="flex h-[30px] w-[30px] items-center justify-center rounded-xl border border-black/40 bg-[linear-gradient(180deg,#444a52,#2f343a)] text-white/85 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+                >
+                  ▶
+                </button>
+                <div />
+                <button
+                  type="button"
+                  className="flex h-[30px] w-[30px] items-center justify-center rounded-xl border border-black/40 bg-[linear-gradient(180deg,#444a52,#2f343a)] text-white/85 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+                >
+                  ▼
+                </button>
+                <div />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2">
+              {rightCluster.map((key) => renderKey(key, { tiny: true }))}
+            </div>
+          </div>
+
+          <div className="mt-3 space-y-2">
+            {keypadRows.map((row, rowIndex) => (
+              <div key={rowIndex} className="grid grid-cols-5 gap-2">
+                {row.map((key) => renderKey(key))}
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-4 flex items-center justify-between rounded-full border border-white/[0.06] bg-black/15 px-4 py-2">
+            <div className="flex gap-1.5">
+              {Array.from({ length: 6 }).map((_, i) => (
                 <div
                   key={i}
-                  className="w-[2px] h-[2px] rounded-full bg-white/[0.07]"
+                  className="h-[3px] w-[3px] rounded-full bg-white/[0.12]"
                 />
               ))}
             </div>
-            <div className="w-[24px] h-[9px] rounded-full border border-white/[0.08] bg-[#111]" />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/pe-logo-white.svg"
-              alt=""
-              className="h-[8px] opacity-[0.12] mt-[2px]"
-            />
+            <p className="text-[8px] font-semibold uppercase tracking-[0.32em] text-white/30">
+              PE-84 Pro
+            </p>
+            <div className="h-[10px] w-[34px] rounded-full border border-white/[0.08] bg-[#111214]" />
           </div>
         </div>
       </div>
@@ -196,29 +426,114 @@ function DeviceSwatch({
     <div className="text-center">
       <div style={{ perspective: 800 }}>
         <div
-          className="relative w-[130px] h-[215px] mx-auto rounded-[22px] shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_0_0.5px_rgba(255,255,255,0.06)]"
+          className="relative mx-auto h-[236px] w-[146px] overflow-hidden px-2.5 pb-4 pt-3 shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_0_0.5px_rgba(255,255,255,0.06)]"
           style={{
-            background: `linear-gradient(to bottom, ${from}, ${via}, ${to})`,
+            borderRadius: "26px 26px 22px 22px",
+            backgroundImage: `linear-gradient(180deg, ${from}, ${via} 46%, ${to}), radial-gradient(circle at 20% 10%, rgba(255,255,255,0.16), transparent 28%), repeating-linear-gradient(135deg, rgba(255,255,255,0.016) 0 8px, rgba(0,0,0,0.016) 8px 16px)`,
             transform: "rotateY(-8deg) rotateX(4deg)",
           }}
         >
-          <div className="absolute inset-0 rounded-[22px] border border-white/[0.06] pointer-events-none" />
-          <div className="mx-3 mt-4 h-[75px] rounded-lg bg-black/50" />
-          <div className="mx-3 mt-3 grid grid-cols-4 gap-[3px]">
-            {Array.from({ length: 20 }).map((_, i) => (
-              <div key={i} className="h-[14px] rounded-md bg-white/[0.04]" />
-            ))}
-          </div>
-          <div className="flex flex-col items-center mt-3 gap-1">
-            <div className="flex gap-[2px]">
-              {Array.from({ length: 6 }).map((_, i) => (
+          <div
+            className="absolute inset-0 border border-white/[0.06] pointer-events-none"
+            style={{ borderRadius: "26px 26px 22px 22px" }}
+          />
+          <div className="absolute left-4 right-4 top-2 h-[5px] rounded-full bg-black/20 blur-[2px]" />
+
+          <div className="relative rounded-[18px] border border-black/30 bg-black/10 px-2.5 pb-3 pt-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
+            <div className="flex items-start justify-between gap-2">
+              <div>
+                <p className="text-[5px] font-semibold uppercase tracking-[0.22em] text-white/50">
+                  PolicyEngine
+                </p>
+                <p className="mt-1 text-[11px] font-black tracking-[0.18em] text-white/90">
+                  CALC
+                </p>
+              </div>
+              <div
+                className="mt-1 h-[12px] w-[34px] rounded-[3px] border border-black/35"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(180deg, #1e242a, #0d1115), repeating-linear-gradient(90deg, rgba(255,255,255,0.12) 0 1px, transparent 1px 10px)",
+                }}
+              />
+            </div>
+
+            <div className="mt-2 rounded-[12px] border border-[#71824a] bg-[linear-gradient(180deg,#dce6af,#becb77_45%,#9caa5d)] p-1.5">
+              <div className="h-[34px] rounded-[8px] border border-[#657442] bg-[#adbb67]" />
+            </div>
+
+            <div className="mt-2 grid grid-cols-5 gap-[4px]">
+              {Array.from({ length: 10 }).map((_, i) => (
                 <div
                   key={i}
-                  className="w-[1.5px] h-[1.5px] rounded-full bg-white/[0.06]"
+                  className={`rounded-[6px] border shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] ${
+                    i === 0
+                      ? "border-[#8d5f1e] bg-[linear-gradient(180deg,#d3a347,#a56e22)]"
+                      : i === 1 || i === 4 || i === 9
+                        ? "border-[#254a4b] bg-[linear-gradient(180deg,#4f8f91,#2f6566)]"
+                        : "border-black/35 bg-[linear-gradient(180deg,#434951,#2e3339)]"
+                  } h-[10px]`}
                 />
               ))}
             </div>
-            <div className="w-[12px] h-[5px] rounded-full border border-white/[0.06]" />
+
+            <div className="mt-2 grid grid-cols-[1fr_auto_1fr] items-center gap-[4px]">
+              <div className="grid grid-cols-2 gap-[4px]">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="h-[10px] rounded-[6px] border border-black/35 bg-[linear-gradient(180deg,#434951,#2e3339)]"
+                  />
+                ))}
+              </div>
+              <div className="rounded-[12px] border border-black/35 bg-[linear-gradient(180deg,#30353b,#23272c)] p-[4px]">
+                <div className="grid grid-cols-3 gap-[3px]">
+                  {Array.from({ length: 9 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className={`${
+                        i === 4
+                          ? "rounded-full bg-white/25"
+                          : "rounded-[5px] border border-black/35 bg-[linear-gradient(180deg,#444a52,#2f343a)]"
+                      } h-[10px] w-[10px]`}
+                    />
+                  ))}
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-[4px]">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="h-[10px] rounded-[6px] border border-black/35 bg-[linear-gradient(180deg,#434951,#2e3339)]"
+                  />
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-2 grid grid-cols-5 gap-[4px]">
+              {Array.from({ length: 20 }).map((_, i) => (
+                <div
+                  key={i}
+                  className={`h-[11px] rounded-[6px] border shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] ${
+                    i % 5 === 4
+                      ? "border-[#254a4b] bg-[linear-gradient(180deg,#4f8f91,#2f6566)]"
+                      : "border-black/35 bg-[linear-gradient(180deg,#3b4149,#2a2f35)]"
+                  }`}
+                />
+              ))}
+            </div>
+
+            <div className="mt-2 flex items-center justify-between rounded-full border border-white/[0.06] bg-black/15 px-2 py-1">
+              <div className="flex gap-[2px]">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="h-[2px] w-[2px] rounded-full bg-white/[0.12]"
+                  />
+                ))}
+              </div>
+              <div className="h-[4px] w-[16px] rounded-full border border-white/[0.08]" />
+            </div>
           </div>
         </div>
       </div>
@@ -287,9 +602,9 @@ function ProductShowcase() {
           >
             <div className="flex items-center justify-end gap-3">
               <div>
-                <p className="text-sm font-semibold">Recycled aluminum</p>
+                <p className="text-sm font-semibold">Molded composite shell</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  100% recycled alloy with ceramic shield front
+                  Textured matte housing with a deep lip to protect the LCD
                 </p>
               </div>
               <div className="w-10 h-px bg-white/20 shrink-0" />
@@ -306,11 +621,9 @@ function ProductShowcase() {
               <div className="w-1.5 h-1.5 rounded-full bg-white/30 shrink-0" />
               <div className="w-10 h-px bg-white/20 shrink-0" />
               <div>
-                <p className="text-sm font-semibold">
-                  3.5&quot; Retina Policy Display
-                </p>
+                <p className="text-sm font-semibold">Sunken monochrome LCD</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  4K HDR. 120Hz ProMotion. Always-On Lorenz curve.
+                  Tilted viewing bay with an anti-glare lens and thick bezel
                 </p>
               </div>
             </div>
@@ -325,9 +638,9 @@ function ProductShowcase() {
               <div className="w-1.5 h-1.5 rounded-full bg-white/30 shrink-0" />
               <div className="w-10 h-px bg-white/20 shrink-0" />
               <div>
-                <p className="text-sm font-semibold">Just 12mm &times; 186g</p>
+                <p className="text-sm font-semibold">Raised key deck</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Lighter than most policy briefs. Slips into any briefcase.
+                  Thumb-shaped navigation cluster and sculpted number pad
                 </p>
               </div>
             </div>
