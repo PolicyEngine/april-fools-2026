@@ -224,7 +224,7 @@ function Calculator({
   );
 }
 
-/* ── Device swatch ─────────────────────────────────────────────────── */
+/* ── Color variant (reuses Calculator at small scale) ──────────────── */
 
 function DeviceSwatch({
   from,
@@ -240,123 +240,18 @@ function DeviceSwatch({
   limited?: boolean;
 }) {
   return (
-    <div className="text-center">
+    <div className="text-center w-[140px]">
       <div style={{ perspective: 800 }}>
         <div
-          className="relative mx-auto h-[236px] w-[146px] overflow-hidden px-2.5 pb-4 pt-3 shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_0_0.5px_rgba(255,255,255,0.06)]"
-          style={{
-            borderRadius: "26px 26px 22px 22px",
-            backgroundImage: `linear-gradient(180deg, ${from}, ${via} 46%, ${to}), radial-gradient(circle at 20% 10%, rgba(255,255,255,0.16), transparent 28%), repeating-linear-gradient(135deg, rgba(255,255,255,0.016) 0 8px, rgba(0,0,0,0.016) 8px 16px)`,
-            transform: "rotateY(-8deg) rotateX(4deg)",
-          }}
+          className="origin-top pointer-events-none"
+          style={{ transform: "scale(0.42) rotateY(-8deg) rotateX(4deg)" }}
         >
-          <div
-            className="absolute inset-0 border border-white/[0.06] pointer-events-none"
-            style={{ borderRadius: "26px 26px 22px 22px" }}
-          />
-          <div className="absolute left-4 right-4 top-2 h-[5px] rounded-full bg-black/20 blur-[2px]" />
-
-          <div className="relative rounded-[18px] border border-black/30 bg-black/10 px-2.5 pb-3 pt-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
-            <div className="flex items-start justify-between gap-2">
-              <div>
-                <p className="text-[5px] font-semibold uppercase tracking-[0.22em] text-white/50">
-                  PolicyEngine
-                </p>
-                <p className="mt-1 text-[11px] font-black tracking-[0.18em] text-white/90">
-                  CALC
-                </p>
-              </div>
-              <div
-                className="mt-1 h-[12px] w-[34px] rounded-[3px] border border-black/35"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(180deg, #1e242a, #0d1115), repeating-linear-gradient(90deg, rgba(255,255,255,0.12) 0 1px, transparent 1px 10px)",
-                }}
-              />
-            </div>
-
-            <div className="mt-2 rounded-[12px] border border-[#71824a] bg-[linear-gradient(180deg,#dce6af,#becb77_45%,#9caa5d)] p-1.5">
-              <div className="h-[34px] rounded-[8px] border border-[#657442] bg-[#adbb67]" />
-            </div>
-
-            <div className="mt-2 grid grid-cols-5 gap-[4px]">
-              {Array.from({ length: 10 }).map((_, i) => (
-                <div
-                  key={i}
-                  className={`rounded-[6px] border shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] ${
-                    i === 0
-                      ? "border-[#8d5f1e] bg-[linear-gradient(180deg,#d3a347,#a56e22)]"
-                      : i === 1 || i === 4 || i === 9
-                        ? "border-[#254a4b] bg-[linear-gradient(180deg,#4f8f91,#2f6566)]"
-                        : "border-black/35 bg-[linear-gradient(180deg,#434951,#2e3339)]"
-                  } h-[10px]`}
-                />
-              ))}
-            </div>
-
-            <div className="mt-2 grid grid-cols-[1fr_auto_1fr] items-center gap-[4px]">
-              <div className="grid grid-cols-2 gap-[4px]">
-                {Array.from({ length: 4 }).map((_, i) => (
-                  <div
-                    key={i}
-                    className="h-[10px] rounded-[6px] border border-black/35 bg-[linear-gradient(180deg,#434951,#2e3339)]"
-                  />
-                ))}
-              </div>
-              <div className="rounded-[12px] border border-black/35 bg-[linear-gradient(180deg,#30353b,#23272c)] p-[4px]">
-                <div className="grid grid-cols-3 gap-[3px]">
-                  {Array.from({ length: 9 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className={`${
-                        i === 4
-                          ? "rounded-full bg-white/25"
-                          : "rounded-[5px] border border-black/35 bg-[linear-gradient(180deg,#444a52,#2f343a)]"
-                      } h-[10px] w-[10px]`}
-                    />
-                  ))}
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-[4px]">
-                {Array.from({ length: 4 }).map((_, i) => (
-                  <div
-                    key={i}
-                    className="h-[10px] rounded-[6px] border border-black/35 bg-[linear-gradient(180deg,#434951,#2e3339)]"
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-2 grid grid-cols-5 gap-[4px]">
-              {Array.from({ length: 20 }).map((_, i) => (
-                <div
-                  key={i}
-                  className={`h-[11px] rounded-[6px] border shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] ${
-                    i % 5 === 4
-                      ? "border-[#254a4b] bg-[linear-gradient(180deg,#4f8f91,#2f6566)]"
-                      : "border-black/35 bg-[linear-gradient(180deg,#3b4149,#2a2f35)]"
-                  }`}
-                />
-              ))}
-            </div>
-
-            <div className="mt-2 flex items-center justify-between rounded-full border border-white/[0.06] bg-black/15 px-2 py-1">
-              <div className="flex gap-[2px]">
-                {Array.from({ length: 4 }).map((_, i) => (
-                  <div
-                    key={i}
-                    className="h-[2px] w-[2px] rounded-full bg-white/[0.12]"
-                  />
-                ))}
-              </div>
-              <div className="h-[4px] w-[16px] rounded-full border border-white/[0.08]" />
-            </div>
-          </div>
+          <Calculator bodyFrom={from} bodyVia={via} bodyTo={to} showGlow={false} />
         </div>
       </div>
-      <p className="text-sm mt-5">{name}</p>
+      <p className="text-sm -mt-[285px] relative z-10">{name}</p>
       {limited && (
-        <p className="text-[10px] text-teal-400 mt-1">Limited edition</p>
+        <p className="text-[10px] text-teal-400 mt-1 relative z-10">Limited edition</p>
       )}
     </div>
   );
