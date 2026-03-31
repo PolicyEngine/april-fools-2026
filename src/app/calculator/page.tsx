@@ -402,7 +402,7 @@ export default function CalculatorPage() {
       {/* ─── Hero (device visible above fold) ────────────────────── */}
       <section
         className="min-h-[calc(100vh-48px)] flex items-center justify-center px-6 py-12 relative overflow-hidden"
-        style={{ background: "radial-gradient(ellipse at 70% 20%, rgba(56,178,172,0.18) 0%, transparent 55%), radial-gradient(ellipse at 20% 80%, rgba(44,122,123,0.12) 0%, transparent 50%), #050508" }}
+        style={{ background: "radial-gradient(ellipse at 70% 15%, rgba(56,178,172,0.28) 0%, transparent 50%), radial-gradient(ellipse at 15% 85%, rgba(44,122,123,0.18) 0%, transparent 45%), #050508" }}
       >
         <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-10 lg:gap-20">
           {/* Copy */}
@@ -519,7 +519,7 @@ export default function CalculatorPage() {
       {/* ─── Display ─────────────────────────────────────────────── */}
       <section
         className="min-h-[80vh] flex flex-col items-center justify-center px-6 py-32 text-center relative overflow-hidden"
-        style={{ background: "radial-gradient(ellipse at 50% 30%, rgba(56,178,172,0.14) 0%, transparent 50%), #060708" }}
+        style={{ background: "radial-gradient(ellipse at 50% 30%, rgba(56,178,172,0.25) 0%, transparent 50%), #050508" }}
       >
         <Reveal>
           <p className="text-sm text-muted-foreground tracking-wide mb-4">
@@ -558,7 +558,7 @@ export default function CalculatorPage() {
       {/* ─── Battery ─────────────────────────────────────────────── */}
       <section
         className="min-h-[90vh] flex flex-col items-center justify-center px-6 py-32 text-center overflow-hidden relative"
-        style={{ background: "radial-gradient(ellipse at 50% 50%, rgba(56,178,172,0.12) 0%, transparent 45%), #050508" }}
+        style={{ background: "radial-gradient(ellipse at 50% 45%, rgba(56,178,172,0.22) 0%, transparent 45%), #050508" }}
       >
         <Reveal>
           <p className="text-sm text-muted-foreground tracking-wide mb-4">
@@ -583,7 +583,7 @@ export default function CalculatorPage() {
       {/* ─── PolicyOS ────────────────────────────────────────────── */}
       <section
         className="min-h-[80vh] flex flex-col items-center justify-center px-6 py-32 text-center relative overflow-hidden"
-        style={{ background: "radial-gradient(ellipse at 70% 70%, rgba(56,178,172,0.12) 0%, transparent 45%), #060708" }}
+        style={{ background: "radial-gradient(ellipse at 70% 60%, rgba(56,178,172,0.22) 0%, transparent 45%), #050508" }}
       >
         <Reveal>
           <p className="text-sm text-muted-foreground tracking-wide mb-4">
