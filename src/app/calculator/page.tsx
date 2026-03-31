@@ -110,8 +110,8 @@ function Calculator({
     <div className="relative">
       {showGlow && (
         <div
-          className="absolute -inset-24 rounded-full blur-[100px] opacity-[0.18]"
-          style={{ background: "rgba(56, 178, 172, 0.5)" }}
+          className="absolute -inset-28 rounded-full blur-[100px] opacity-[0.25]"
+          style={{ background: "rgba(56, 178, 172, 0.6)" }}
           aria-hidden
         />
       )}
@@ -401,9 +401,9 @@ export default function CalculatorPage() {
 
       {/* ─── Hero (device visible above fold) ────────────────────── */}
       <section className="min-h-[calc(100vh-48px)] flex items-center justify-center px-6 py-12 relative overflow-hidden">
-        {/* Atmospheric color bleed */}
-        <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-teal-500/[0.06] blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] rounded-full bg-teal-600/[0.04] blur-[100px] pointer-events-none" />
+        {/* Atmospheric color bleed — visible */}
+        <div className="absolute top-[-20%] right-[-5%] w-[700px] h-[700px] rounded-full bg-teal-400/[0.15] blur-[150px] pointer-events-none" />
+        <div className="absolute bottom-[0%] left-[-15%] w-[500px] h-[500px] rounded-full bg-teal-600/[0.10] blur-[120px] pointer-events-none" />
         <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-10 lg:gap-20">
           {/* Copy */}
           <motion.div
@@ -495,7 +495,7 @@ export default function CalculatorPage() {
                 ] as const
               ).map(([num, label], i) => (
                 <Reveal key={label} delay={0.1 * (i + 1)}>
-                  <p className="text-3xl md:text-4xl font-bold text-teal-400">
+                  <p className="text-3xl md:text-4xl font-bold text-teal-300">
                     {num}
                   </p>
                   <p className="text-xs text-muted-foreground mt-1">
@@ -517,8 +517,8 @@ export default function CalculatorPage() {
       </section>
 
       {/* ─── Display ─────────────────────────────────────────────── */}
-      <section className="min-h-[80vh] flex flex-col items-center justify-center px-6 py-32 text-center bg-[#08090c] relative overflow-hidden">
-        <div className="absolute top-[20%] left-[50%] -translate-x-1/2 w-[800px] h-[400px] rounded-full bg-teal-500/[0.04] blur-[100px] pointer-events-none" />
+      <section className="min-h-[80vh] flex flex-col items-center justify-center px-6 py-32 text-center bg-[#070809] relative overflow-hidden">
+        <div className="absolute top-[10%] left-[50%] -translate-x-1/2 w-[900px] h-[500px] rounded-full bg-teal-500/[0.12] blur-[140px] pointer-events-none" />
         <Reveal>
           <p className="text-sm text-muted-foreground tracking-wide mb-4">
             Display
@@ -554,14 +554,15 @@ export default function CalculatorPage() {
       </section>
 
       {/* ─── Battery ─────────────────────────────────────────────── */}
-      <section className="min-h-[90vh] flex flex-col items-center justify-center px-6 py-32 text-center overflow-hidden">
+      <section className="min-h-[90vh] flex flex-col items-center justify-center px-6 py-32 text-center overflow-hidden relative">
+        <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-teal-400/[0.08] blur-[120px] pointer-events-none" />
         <Reveal>
           <p className="text-sm text-muted-foreground tracking-wide mb-4">
             Battery
           </p>
         </Reveal>
         <Reveal>
-          <p className="text-[10rem] md:text-[14rem] lg:text-[18rem] font-bold leading-none tracking-tighter bg-gradient-to-b from-teal-300 via-teal-400 to-teal-600/30 bg-clip-text text-transparent">
+          <p className="text-[10rem] md:text-[14rem] lg:text-[18rem] font-bold leading-none tracking-tighter bg-gradient-to-b from-teal-200 via-teal-400 to-teal-700/20 bg-clip-text text-transparent">
             20
           </p>
         </Reveal>
@@ -576,8 +577,8 @@ export default function CalculatorPage() {
       </section>
 
       {/* ─── PolicyOS ────────────────────────────────────────────── */}
-      <section className="min-h-[80vh] flex flex-col items-center justify-center px-6 py-32 text-center bg-[#08090c] relative overflow-hidden">
-        <div className="absolute bottom-[10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-teal-600/[0.05] blur-[120px] pointer-events-none" />
+      <section className="min-h-[80vh] flex flex-col items-center justify-center px-6 py-32 text-center bg-[#070809] relative overflow-hidden">
+        <div className="absolute bottom-[10%] right-[-5%] w-[600px] h-[600px] rounded-full bg-teal-500/[0.10] blur-[130px] pointer-events-none" />
         <Reveal>
           <p className="text-sm text-muted-foreground tracking-wide mb-4">
             Software
@@ -612,7 +613,7 @@ export default function CalculatorPage() {
             ] as const
           ).map(([title, desc], i) => (
             <Reveal key={title} delay={0.1 * i}>
-              <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/[0.06]">
+              <div className="p-6 rounded-2xl bg-white/[0.03] border border-teal-500/[0.15] shadow-[0_0_20px_rgba(56,178,172,0.04)]">
                 <h3 className="font-semibold text-lg">{title}</h3>
                 <p className="text-sm text-muted-foreground mt-2">{desc}</p>
               </div>
