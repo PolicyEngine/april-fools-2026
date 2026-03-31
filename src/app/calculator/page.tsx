@@ -163,9 +163,9 @@ function Calculator({
             <div className="rounded-[14px] border border-[#7b8b50] bg-[linear-gradient(180deg,#dbe4a8,#bdcb75_42%,#9caa5d)] p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),inset_0_-3px_10px_rgba(61,80,22,0.28)]">
               {/* Mode indicators */}
               <div className="flex items-center justify-between text-[6px] font-black uppercase tracking-[0.22em] text-[#263313]/60 px-1">
-                <span>Run</span>
-                <span>Float</span>
-                <span>Rad</span>
+                <span>US</span>
+                <span>2026</span>
+                <span>Fed</span>
                 <span>Sim</span>
               </div>
               {/* Pixel display */}
