@@ -43,12 +43,6 @@ function Reveal({
 
 /* ── Calculator device ─────────────────────────────────────────────── */
 
-type CalculatorKey = {
-  label: string;
-  sub?: string;
-  variant?: "dark" | "light" | "accent" | "teal" | "warning";
-};
-
 function Calculator({
   bodyFrom = "#2d2d31",
   bodyVia = "#232327",
@@ -60,159 +54,56 @@ function Calculator({
   bodyTo?: string;
   showGlow?: boolean;
 }) {
-  const screenLines: {
-    label: string;
-    value: string;
-    bright?: boolean;
-    dim?: boolean;
-    warn?: boolean;
-  }[] = [
-    { label: "REFORM ANALYSIS", value: "", bright: true },
-    { label: "\u2501".repeat(22), value: "", dim: true },
-    { label: "Poverty rate", value: "-45.3%" },
-    { label: "Budget impact", value: "+$2.8T", warn: true },
-    { label: "Gini index", value: "-0.08" },
-    { label: "Households better off", value: "78%" },
-  ];
-
-  const topDeck: CalculatorKey[][] = [
+  const buttons: { label: string; variant: "dark" | "light" | "teal" | "accent" }[][] = [
     [
-      { label: "2nd", sub: "INS", variant: "accent" },
-      { label: "ALPHA", sub: "LOCK", variant: "teal" },
-      { label: "MODE", sub: "SET", variant: "light" },
-      { label: "STAT", sub: "DATA", variant: "light" },
-      { label: "DEL", sub: "CLR", variant: "warning" },
+      { label: "GINI", variant: "teal" },
+      { label: "PVTY", variant: "teal" },
+      { label: "REV", variant: "teal" },
+      { label: "COST", variant: "teal" },
     ],
-    [
-      { label: "Y=", sub: "PLOT", variant: "light" },
-      { label: "WIN", sub: "VIEW", variant: "light" },
-      { label: "ZOOM", sub: "SCALE", variant: "light" },
-      { label: "TRACE", sub: "READ", variant: "light" },
-      { label: "GRAPH", sub: "RUN", variant: "teal" },
-    ],
-  ];
-
-  const leftCluster: CalculatorKey[] = [
-    { label: "MATH", sub: "fn", variant: "dark" },
-    { label: "APPS", sub: "pkg", variant: "dark" },
-    { label: "PRGM", sub: "ops", variant: "dark" },
-    { label: "VARS", sub: "db", variant: "dark" },
-  ];
-
-  const rightCluster: CalculatorKey[] = [
-    { label: "MATRIX", sub: "tab", variant: "dark" },
-    { label: "TABLE", sub: "cmp", variant: "dark" },
-    { label: "STO→", sub: "save", variant: "dark" },
-    { label: "CLEAR", sub: "esc", variant: "warning" },
-  ];
-
-  const keypadRows: CalculatorKey[][] = [
     [
       { label: "7", variant: "dark" },
       { label: "8", variant: "dark" },
       { label: "9", variant: "dark" },
-      { label: "÷", variant: "light" },
-      { label: "UBI", sub: "sim", variant: "teal" },
+      { label: "UBI", variant: "accent" },
     ],
     [
       { label: "4", variant: "dark" },
       { label: "5", variant: "dark" },
       { label: "6", variant: "dark" },
-      { label: "×", variant: "light" },
-      { label: "CTC", sub: "fam", variant: "teal" },
+      { label: "CTC", variant: "accent" },
     ],
     [
       { label: "1", variant: "dark" },
       { label: "2", variant: "dark" },
       { label: "3", variant: "dark" },
-      { label: "−", variant: "light" },
-      { label: "EITC", sub: "work", variant: "teal" },
+      { label: "EITC", variant: "accent" },
     ],
     [
       { label: "0", variant: "dark" },
       { label: ".", variant: "dark" },
-      { label: "(", variant: "dark" },
-      { label: ")", variant: "dark" },
-      { label: "+", variant: "light" },
-    ],
-    [
-      { label: "ANS", sub: "prev", variant: "dark" },
-      { label: "VAR", sub: "adj", variant: "dark" },
-      { label: "COST", sub: "10y", variant: "dark" },
-      { label: "REFORM", sub: "bill", variant: "accent" },
-      { label: "ENTER", sub: "run", variant: "teal" },
+      { label: "REFORM", variant: "light" },
+      { label: "SIM", variant: "accent" },
     ],
   ];
 
-  const keyTreatments: Record<
-    NonNullable<CalculatorKey["variant"]>,
-    { className: string; style: React.CSSProperties }
-  > = {
+  const btnStyles = {
     dark: {
-      className: "border-black/45 text-white/92",
-      style: {
-        backgroundImage: "linear-gradient(180deg, #3b4149, #2a2f35)",
-      },
+      className: "border-black/45 text-white/90",
+      bg: "linear-gradient(180deg, #3b4149, #2a2f35)",
     },
     light: {
       className: "border-[#7b8188] text-[#121519]",
-      style: {
-        backgroundImage: "linear-gradient(180deg, #c9ced6, #a8afb8)",
-      },
-    },
-    accent: {
-      className: "border-[#8d5f1e] text-[#fff4d4]",
-      style: {
-        backgroundImage: "linear-gradient(180deg, #d3a347, #a56e22)",
-      },
+      bg: "linear-gradient(180deg, #c9ced6, #a8afb8)",
     },
     teal: {
       className: "border-[#254a4b] text-[#eefdfd]",
-      style: {
-        backgroundImage: "linear-gradient(180deg, #4f8f91, #2f6566)",
-      },
+      bg: "linear-gradient(180deg, #4f8f91, #2f6566)",
     },
-    warning: {
-      className: "border-[#6a3535] text-[#fff1ee]",
-      style: {
-        backgroundImage: "linear-gradient(180deg, #925353, #653636)",
-      },
+    accent: {
+      className: "border-[#8d5f1e] text-[#fff4d4]",
+      bg: "linear-gradient(180deg, #d3a347, #a56e22)",
     },
-  };
-
-  const renderKey = (
-    key: CalculatorKey,
-    {
-      compact = false,
-      tiny = false,
-    }: {
-      compact?: boolean;
-      tiny?: boolean;
-    } = {},
-  ) => {
-    const treatment = keyTreatments[key.variant ?? "dark"];
-
-    return (
-      <button
-        key={key.label}
-        type="button"
-        className={`relative flex items-center justify-center rounded-[14px] border font-semibold shadow-[0_5px_10px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(255,255,255,0.15)] transition-transform active:translate-y-[1px] ${
-          compact ? "h-[34px] text-[10px]" : "h-[42px] text-[11px]"
-        } ${tiny ? "text-[10px]" : ""} ${treatment.className}`}
-        style={treatment.style}
-      >
-        {key.sub && (
-          <span className="absolute left-2 top-1 text-[7px] font-bold uppercase tracking-[0.18em] opacity-65">
-            {key.sub}
-          </span>
-        )}
-        <span
-          className={`${key.sub ? (compact ? "mt-2.5" : "mt-3") : ""} tracking-[0.08em]`}
-        >
-          {key.label}
-        </span>
-      </button>
-    );
   };
 
   return (
@@ -225,181 +116,106 @@ function Calculator({
         />
       )}
 
+      {/* Device body — brushed metal texture */}
       <div
-        className="relative w-[344px] overflow-hidden px-4 pb-6 pt-5 shadow-[0_55px_120px_rgba(0,0,0,0.62),0_8px_20px_rgba(0,0,0,0.35)]"
+        className="relative w-[330px] overflow-hidden px-4 pb-5 pt-5 shadow-[0_55px_120px_rgba(0,0,0,0.62),0_8px_20px_rgba(0,0,0,0.35)]"
         style={{
           borderRadius: "40px 40px 34px 34px",
           backgroundImage: `linear-gradient(180deg, ${bodyFrom}, ${bodyVia} 48%, ${bodyTo}), radial-gradient(circle at 18% 10%, rgba(255,255,255,0.18), transparent 28%), repeating-linear-gradient(135deg, rgba(255,255,255,0.018) 0 10px, rgba(0,0,0,0.018) 10px 20px)`,
         }}
       >
+        {/* Inner light + shadow */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
             borderRadius: "40px 40px 34px 34px",
-            boxShadow:
-              "inset 0 1px 0 rgba(255,255,255,0.16), inset 0 -16px 24px rgba(0,0,0,0.24)",
+            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.16), inset 0 -16px 24px rgba(0,0,0,0.24)",
           }}
         />
-        <div
-          className="absolute inset-[1px] pointer-events-none border border-black/28"
-          style={{ borderRadius: "39px 39px 33px 33px" }}
-        />
+        <div className="absolute inset-[1px] pointer-events-none border border-black/28" style={{ borderRadius: "39px 39px 33px 33px" }} />
+        {/* Top shadow */}
         <div className="absolute left-10 right-10 top-3 h-[9px] rounded-full bg-black/18 blur-[3px] pointer-events-none" />
-        <div className="absolute left-2.5 top-[104px] bottom-16 w-[7px] rounded-full bg-black/20 pointer-events-none" />
-        <div className="absolute right-2.5 top-[104px] bottom-16 w-[7px] rounded-full bg-white/[0.05] pointer-events-none" />
 
+        {/* Inner bezel */}
         <div className="relative rounded-[28px] border border-black/35 bg-[linear-gradient(180deg,rgba(103,108,118,0.26),rgba(35,37,41,0.18))] px-4 pb-4 pt-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),inset_0_-14px_20px_rgba(0,0,0,0.18)]">
+          {/* Branding + solar panel */}
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-[9px] font-semibold uppercase tracking-[0.34em] text-white/55">
-                PolicyEngine
-              </p>
-              <p className="mt-2 text-[27px] font-black leading-none tracking-[0.16em] text-white/92">
-                CALCULATOR
-              </p>
-              <p className="mt-1 text-[8px] uppercase tracking-[0.32em] text-white/40">
-                graphing microsimulator PE-84
-              </p>
+              <p className="text-[9px] font-semibold uppercase tracking-[0.34em] text-white/55">PolicyEngine</p>
+              <p className="mt-1.5 text-[24px] font-black leading-none tracking-[0.14em] text-white/92">PE-84</p>
+              <p className="mt-0.5 text-[7px] uppercase tracking-[0.3em] text-white/35">graphing microsimulator</p>
             </div>
-
-            <div className="w-[92px] shrink-0">
-              <p className="text-right text-[7px] font-semibold uppercase tracking-[0.3em] text-white/35">
-                Solar assist
-              </p>
+            <div className="w-[80px] shrink-0">
+              <p className="text-right text-[6px] font-semibold uppercase tracking-[0.28em] text-white/30">Solar</p>
               <div
-                className="mt-2 h-[26px] rounded-[5px] border border-black/45 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
+                className="mt-1.5 h-[22px] rounded-[4px] border border-black/45 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
                 style={{
-                  backgroundImage:
-                    "linear-gradient(180deg, #1e242a, #0d1115), repeating-linear-gradient(90deg, rgba(255,255,255,0.12) 0 1px, transparent 1px 14px)",
+                  backgroundImage: "linear-gradient(180deg, #1e242a, #0d1115), repeating-linear-gradient(90deg, rgba(255,255,255,0.12) 0 1px, transparent 1px 12px)",
                 }}
               />
             </div>
           </div>
 
-          <div className="mt-4 rounded-[24px] border border-black/40 bg-[#212429] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),inset_0_18px_18px_rgba(255,255,255,0.02),inset_0_-18px_20px_rgba(0,0,0,0.28)]">
-            <div className="rounded-[18px] border border-[#7b8b50] bg-[linear-gradient(180deg,#dbe4a8,#bdcb75_42%,#9caa5d)] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),inset_0_-3px_10px_rgba(61,80,22,0.28)]">
-              <div className="flex items-center justify-between text-[7px] font-black uppercase tracking-[0.28em] text-[#263313]/70">
+          {/* Screen housing */}
+          <div className="mt-3 rounded-[20px] border border-black/40 bg-[#212429] p-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),inset_0_-14px_16px_rgba(0,0,0,0.28)]">
+            {/* LCD panel — green with gradient */}
+            <div className="rounded-[14px] border border-[#7b8b50] bg-[linear-gradient(180deg,#dbe4a8,#bdcb75_42%,#9caa5d)] p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),inset_0_-3px_10px_rgba(61,80,22,0.28)]">
+              {/* Mode indicators */}
+              <div className="flex items-center justify-between text-[6px] font-black uppercase tracking-[0.22em] text-[#263313]/60 px-1">
                 <span>Run</span>
                 <span>Float</span>
                 <span>Rad</span>
                 <span>Sim</span>
               </div>
-
-              <div className="mt-2 overflow-hidden rounded-[12px] border border-[#6d7c45] bg-[#afbd67] shadow-[inset_0_1px_2px_rgba(29,42,11,0.24)]">
+              {/* Pixel display */}
+              <div className="mt-1.5 overflow-hidden rounded-[10px] border border-[#6d7c45] bg-[#afbd67] shadow-[inset_0_1px_2px_rgba(29,42,11,0.24)]">
                 <div className="relative">
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),transparent_24%,rgba(36,49,14,0.05)_54%,transparent_78%)] pointer-events-none" />
-                  <div className="absolute inset-0 opacity-[0.12] pointer-events-none [background-image:linear-gradient(rgba(32,45,14,0.4)_1px,transparent_1px),linear-gradient(90deg,rgba(32,45,14,0.35)_1px,transparent_1px)] [background-size:12px_12px]" />
+                  {/* Glass sheen */}
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),transparent_24%,rgba(36,49,14,0.05)_54%,transparent_78%)] pointer-events-none z-10" />
+                  {/* Pixel grid */}
+                  <div className="absolute inset-0 opacity-[0.1] pointer-events-none [background-image:linear-gradient(rgba(32,45,14,0.4)_1px,transparent_1px),linear-gradient(90deg,rgba(32,45,14,0.35)_1px,transparent_1px)] [background-size:10px_10px]" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/ti84-deciles.png"
-                    alt="Income change by decile — TI-84 style bar chart"
-                    className="h-[98px] w-full object-cover opacity-[0.92]"
+                    alt="Income change by decile"
+                    className="h-[110px] w-full object-cover opacity-[0.9]"
                     style={{ imageRendering: "pixelated" }}
                   />
                 </div>
+              </div>
+            </div>
+          </div>
 
-                <div className="border-t border-[#6d7c45] px-2 py-2 font-mono text-[8px] leading-[1.35] text-[#253213]/85">
-                  {screenLines.map((line) => (
-                    <div
-                      key={`${line.label}-${line.value}`}
-                      className={`flex items-center justify-between ${
-                        line.bright
-                          ? "font-black tracking-[0.12em]"
-                          : line.dim
-                            ? "opacity-45"
-                            : "font-semibold"
-                      } ${line.warn ? "text-[#55361c]" : ""}`}
+          {/* Keypad — clean 4-column grid */}
+          <div className="mt-4 space-y-[7px]">
+            {buttons.map((row, ri) => (
+              <div key={ri} className="grid grid-cols-4 gap-[7px]">
+                {row.map((key) => {
+                  const s = btnStyles[key.variant];
+                  return (
+                    <button
+                      key={key.label}
+                      type="button"
+                      className={`h-[44px] rounded-[14px] border text-[11px] font-semibold tracking-[0.06em] shadow-[0_4px_8px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.14)] active:translate-y-[1px] transition-transform ${s.className}`}
+                      style={{ backgroundImage: s.bg }}
                     >
-                      <span>{line.label}</span>
-                      {line.value ? <span>{line.value}</span> : null}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-3 flex items-center justify-between px-1 text-[8px] font-semibold uppercase tracking-[0.28em] text-white/30">
-              <span>Analyze</span>
-              <span>Model</span>
-              <span>Compare</span>
-            </div>
-          </div>
-
-          <div className="mt-4 space-y-2">
-            {topDeck.map((row, rowIndex) => (
-              <div key={rowIndex} className="grid grid-cols-5 gap-2">
-                {row.map((key) => renderKey(key, { compact: true }))}
+                      {key.label}
+                    </button>
+                  );
+                })}
               </div>
             ))}
           </div>
 
-          <div className="mt-3 grid grid-cols-[1fr_auto_1fr] items-center gap-3">
-            <div className="grid grid-cols-2 gap-2">
-              {leftCluster.map((key) => renderKey(key))}
-            </div>
-
-            <div className="rounded-[20px] border border-black/40 bg-[linear-gradient(180deg,#30353b,#23272c)] p-2 shadow-[0_8px_16px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.07)]">
-              <div className="grid grid-cols-3 gap-1.5">
-                <div />
-                <button
-                  type="button"
-                  className="flex h-[30px] w-[30px] items-center justify-center rounded-xl border border-black/40 bg-[linear-gradient(180deg,#444a52,#2f343a)] text-white/85 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
-                >
-                  ▲
-                </button>
-                <div />
-                <button
-                  type="button"
-                  className="flex h-[30px] w-[30px] items-center justify-center rounded-xl border border-black/40 bg-[linear-gradient(180deg,#444a52,#2f343a)] text-white/85 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
-                >
-                  ◀
-                </button>
-                <div className="flex h-[30px] w-[30px] items-center justify-center rounded-full border border-black/45 bg-[linear-gradient(180deg,#1f2327,#0f1114)] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
-                  <div className="h-2.5 w-2.5 rounded-full bg-white/30" />
-                </div>
-                <button
-                  type="button"
-                  className="flex h-[30px] w-[30px] items-center justify-center rounded-xl border border-black/40 bg-[linear-gradient(180deg,#444a52,#2f343a)] text-white/85 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
-                >
-                  ▶
-                </button>
-                <div />
-                <button
-                  type="button"
-                  className="flex h-[30px] w-[30px] items-center justify-center rounded-xl border border-black/40 bg-[linear-gradient(180deg,#444a52,#2f343a)] text-white/85 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
-                >
-                  ▼
-                </button>
-                <div />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-2">
-              {rightCluster.map((key) => renderKey(key, { tiny: true }))}
-            </div>
-          </div>
-
-          <div className="mt-3 space-y-2">
-            {keypadRows.map((row, rowIndex) => (
-              <div key={rowIndex} className="grid grid-cols-5 gap-2">
-                {row.map((key) => renderKey(key))}
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-4 flex items-center justify-between rounded-full border border-white/[0.06] bg-black/15 px-4 py-2">
+          {/* Bottom bar — speaker + model + port */}
+          <div className="mt-4 flex items-center justify-between rounded-full border border-white/[0.06] bg-black/15 px-4 py-1.5">
             <div className="flex gap-1.5">
               {Array.from({ length: 6 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="h-[3px] w-[3px] rounded-full bg-white/[0.12]"
-                />
+                <div key={i} className="h-[3px] w-[3px] rounded-full bg-white/[0.12]" />
               ))}
             </div>
-            <p className="text-[8px] font-semibold uppercase tracking-[0.32em] text-white/30">
-              PE-84 Pro
-            </p>
-            <div className="h-[10px] w-[34px] rounded-full border border-white/[0.08] bg-[#111214]" />
+            <p className="text-[7px] font-semibold uppercase tracking-[0.3em] text-white/25">PE-84 Pro</p>
+            <div className="h-[9px] w-[30px] rounded-full border border-white/[0.08] bg-[#111214]" />
           </div>
         </div>
       </div>
