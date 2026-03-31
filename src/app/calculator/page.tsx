@@ -109,7 +109,7 @@ function Calculator({
 
         <div className="p-5 pt-6 pb-5 flex flex-col">
           {/* Screen — authentic TI-84 monochrome LCD */}
-          <div className="relative rounded-2xl overflow-hidden shadow-[inset_0_2px_12px_rgba(0,0,0,0.3),0_0_0_0.5px_rgba(255,255,255,0.04)]" className="bg-teal-50">
+          <div className="relative rounded-2xl overflow-hidden shadow-[inset_0_2px_12px_rgba(0,0,0,0.3),0_0_0_0.5px_rgba(255,255,255,0.04)] bg-teal-50">
             {/* Glass reflection */}
             <div className="absolute inset-0 bg-gradient-to-br from-white/[0.12] via-transparent to-transparent pointer-events-none z-10 rounded-2xl" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -505,7 +505,7 @@ export default function CalculatorPage() {
         </Reveal>
 
         <Reveal delay={0.2} className="mt-16 w-full max-w-[600px]">
-          <div className="relative rounded-3xl overflow-hidden shadow-[0_0_80px_rgba(49,151,149,0.06),inset_0_2px_12px_rgba(0,0,0,0.3)]" className="bg-teal-50">
+          <div className="relative rounded-3xl overflow-hidden shadow-[0_0_80px_rgba(49,151,149,0.06),inset_0_2px_12px_rgba(0,0,0,0.3)] bg-teal-50">
             {/* Glass reflection */}
             <div className="absolute inset-0 bg-gradient-to-br from-white/[0.15] via-transparent to-transparent pointer-events-none rounded-3xl z-10" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
