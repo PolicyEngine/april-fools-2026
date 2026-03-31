@@ -400,10 +400,10 @@ export default function CalculatorPage() {
       </nav>
 
       {/* ─── Hero (device visible above fold) ────────────────────── */}
-      <section className="min-h-[calc(100vh-48px)] flex items-center justify-center px-6 py-12 relative overflow-hidden">
-        {/* Atmospheric color bleed — visible */}
-        <div className="absolute top-[-20%] right-[-5%] w-[700px] h-[700px] rounded-full bg-teal-400/[0.15] blur-[150px] pointer-events-none" />
-        <div className="absolute bottom-[0%] left-[-15%] w-[500px] h-[500px] rounded-full bg-teal-600/[0.10] blur-[120px] pointer-events-none" />
+      <section
+        className="min-h-[calc(100vh-48px)] flex items-center justify-center px-6 py-12 relative overflow-hidden"
+        style={{ background: "radial-gradient(ellipse at 70% 20%, rgba(56,178,172,0.18) 0%, transparent 55%), radial-gradient(ellipse at 20% 80%, rgba(44,122,123,0.12) 0%, transparent 50%), #050508" }}
+      >
         <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-10 lg:gap-20">
           {/* Copy */}
           <motion.div
@@ -517,8 +517,10 @@ export default function CalculatorPage() {
       </section>
 
       {/* ─── Display ─────────────────────────────────────────────── */}
-      <section className="min-h-[80vh] flex flex-col items-center justify-center px-6 py-32 text-center bg-[#070809] relative overflow-hidden">
-        <div className="absolute top-[10%] left-[50%] -translate-x-1/2 w-[900px] h-[500px] rounded-full bg-teal-500/[0.12] blur-[140px] pointer-events-none" />
+      <section
+        className="min-h-[80vh] flex flex-col items-center justify-center px-6 py-32 text-center relative overflow-hidden"
+        style={{ background: "radial-gradient(ellipse at 50% 30%, rgba(56,178,172,0.14) 0%, transparent 50%), #060708" }}
+      >
         <Reveal>
           <p className="text-sm text-muted-foreground tracking-wide mb-4">
             Display
@@ -554,8 +556,10 @@ export default function CalculatorPage() {
       </section>
 
       {/* ─── Battery ─────────────────────────────────────────────── */}
-      <section className="min-h-[90vh] flex flex-col items-center justify-center px-6 py-32 text-center overflow-hidden relative">
-        <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-teal-400/[0.08] blur-[120px] pointer-events-none" />
+      <section
+        className="min-h-[90vh] flex flex-col items-center justify-center px-6 py-32 text-center overflow-hidden relative"
+        style={{ background: "radial-gradient(ellipse at 50% 50%, rgba(56,178,172,0.12) 0%, transparent 45%), #050508" }}
+      >
         <Reveal>
           <p className="text-sm text-muted-foreground tracking-wide mb-4">
             Battery
@@ -577,8 +581,10 @@ export default function CalculatorPage() {
       </section>
 
       {/* ─── PolicyOS ────────────────────────────────────────────── */}
-      <section className="min-h-[80vh] flex flex-col items-center justify-center px-6 py-32 text-center bg-[#070809] relative overflow-hidden">
-        <div className="absolute bottom-[10%] right-[-5%] w-[600px] h-[600px] rounded-full bg-teal-500/[0.10] blur-[130px] pointer-events-none" />
+      <section
+        className="min-h-[80vh] flex flex-col items-center justify-center px-6 py-32 text-center relative overflow-hidden"
+        style={{ background: "radial-gradient(ellipse at 70% 70%, rgba(56,178,172,0.12) 0%, transparent 45%), #060708" }}
+      >
         <Reveal>
           <p className="text-sm text-muted-foreground tracking-wide mb-4">
             Software
