@@ -141,7 +141,8 @@ function Calculator({
           {/* Branding + solar panel */}
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-[9px] font-semibold uppercase tracking-[0.34em] text-white/55">PolicyEngine</p>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/pe-logo-white.svg" alt="PolicyEngine" className="h-[11px] opacity-55" />
               <p className="mt-1.5 text-[24px] font-black leading-none tracking-[0.14em] text-white/92">PE-84</p>
               <p className="mt-0.5 text-[7px] uppercase tracking-[0.3em] text-white/35">graphing microsimulator</p>
             </div>
@@ -491,7 +492,7 @@ export default function CalculatorPage() {
               />
             </a>
             <span className="text-xs text-muted-foreground hidden md:inline">
-              Calculator
+              PE-84
             </span>
           </div>
           <a
@@ -521,17 +522,15 @@ export default function CalculatorPage() {
             </motion.p>
             <motion.h1
               variants={fadeUp}
-              className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tight leading-[0.95]"
+              className="text-6xl md:text-8xl lg:text-[7rem] font-black tracking-tight leading-[0.9]"
             >
-              PolicyEngine
-              <br />
-              Calculator
+              PE-84
             </motion.h1>
             <motion.p
               variants={fadeUp}
               className="text-xl md:text-2xl text-muted-foreground"
             >
-              Microsimulation. In your pocket.
+              The graphing microsimulator.
             </motion.p>
             <motion.div
               variants={fadeUp}
@@ -890,7 +889,7 @@ export default function CalculatorPage() {
       <footer className="border-t border-white/[0.06] px-6 py-12">
         <div className="max-w-[980px] mx-auto text-center">
           <p className="text-xs text-muted-foreground">
-            PolicyEngine Calculator is a fictional product. Happy April
+            The PE-84 is a fictional product. Happy April
             Fools&apos; Day!
           </p>
           <p className="text-xs text-muted-foreground/50 mt-2">

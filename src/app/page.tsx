@@ -3,8 +3,8 @@ import Link from "next/link";
 const ideas = [
   {
     href: "/calculator",
-    title: "PolicyEngine Calculator",
-    desc: "Microsimulation. In your pocket. From $1,299.",
+    title: "PE-84",
+    desc: "The graphing microsimulator. From $1,299.",
     ready: true,
   },
   {
