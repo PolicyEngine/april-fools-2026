@@ -2,6 +2,9 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
+import peLogoWhite from "../../../public/pe-logo-white.svg";
+import ti84Deciles from "../../../public/ti84-deciles.png";
+import ti84Lorenz from "../../../public/ti84-lorenz.png";
 
 /* ── Animation helpers ─────────────────────────────────────────────── */
 
@@ -146,7 +149,7 @@ function Calculator({
           <div className="flex items-start justify-between gap-4">
             <div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/pe-logo-white.svg" alt="PolicyEngine" className="h-[11px] opacity-55" />
+              <img src={peLogoWhite.src} alt="PolicyEngine" className="h-[11px] opacity-55" />
               <p className="mt-1.5 text-[24px] font-black leading-none tracking-[0.14em] text-white/92">PE-84</p>
               <p className="mt-0.5 text-[7px] uppercase tracking-[0.3em] text-white/35">graphing microsimulator</p>
             </div>
@@ -181,7 +184,7 @@ function Calculator({
                   <div className="absolute inset-0 opacity-[0.1] pointer-events-none [background-image:linear-gradient(rgba(32,45,14,0.4)_1px,transparent_1px),linear-gradient(90deg,rgba(32,45,14,0.35)_1px,transparent_1px)] [background-size:10px_10px]" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/ti84-deciles.png"
+                    src={ti84Deciles.src}
                     alt="Income change by decile"
                     className="h-[110px] w-full object-cover opacity-[0.9]"
                     style={{ imageRendering: "pixelated" }}
@@ -403,7 +406,7 @@ export default function CalculatorPage() {
             <a href="/" className="flex items-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/pe-logo-white.svg"
+                src={peLogoWhite.src}
                 alt="PolicyEngine"
                 className="h-[18px]"
               />
@@ -561,7 +564,7 @@ export default function CalculatorPage() {
             <div className="absolute inset-0 bg-gradient-to-br from-white/[0.15] via-transparent to-transparent pointer-events-none rounded-3xl z-10" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/ti84-lorenz.png"
+              src={ti84Lorenz.src}
               alt="Lorenz curve — baseline vs reform"
               className="w-full"
               style={{ imageRendering: "pixelated" }}
