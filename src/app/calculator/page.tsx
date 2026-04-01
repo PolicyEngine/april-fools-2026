@@ -396,37 +396,9 @@ export default function CalculatorPage() {
 
   return (
     <div className="bg-[#050508] text-[#f5f5f7] min-h-screen selection:bg-teal-400/30">
-      {/* ─── Nav ─────────────────────────────────────────────────── */}
-      <nav
-        className="sticky top-0 z-50 backdrop-blur-xl border-b border-white/[0.08]"
-        style={{ background: "rgba(0,0,0,0.8)" }}
-      >
-        <div className="max-w-[980px] mx-auto px-6 h-12 flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <a href="/" className="flex items-center">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={peLogoWhite.src}
-                alt="PolicyEngine"
-                className="h-[18px]"
-              />
-            </a>
-            <span className="text-xs text-muted-foreground hidden md:inline">
-              PE-84
-            </span>
-          </div>
-          <a
-            href="#preorder"
-            className="text-xs text-teal-400 hover:underline"
-          >
-            Pre-order &rarr;
-          </a>
-        </div>
-      </nav>
-
       {/* ─── Hero (device visible above fold) ────────────────────── */}
       <section
-        className="min-h-[calc(100vh-48px)] flex items-center justify-center px-6 py-12 relative overflow-hidden"
+        className="min-h-screen flex items-center justify-center px-6 py-12 relative overflow-hidden"
         style={{ background: "radial-gradient(ellipse at 70% 15%, rgba(56,178,172,0.28) 0%, transparent 50%), radial-gradient(ellipse at 15% 85%, rgba(44,122,123,0.18) 0%, transparent 45%), #050508" }}
       >
         <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-10 lg:gap-20">
