@@ -71,13 +71,13 @@ function Calculator({
       { label: "4", above: "MTR", aboveColor: "#5aa8aa", variant: "dark" },
       { label: "5", above: "ATR", aboveColor: "#5aa8aa", variant: "dark" },
       { label: "6", above: "PTR", aboveColor: "#5aa8aa", variant: "dark" },
-      { label: "CTC", variant: "accent" },
+      { label: "NIT", variant: "accent" },
     ],
     [
-      { label: "1", above: "FED", aboveColor: "#5aa8aa", variant: "dark" },
-      { label: "2", above: "STATE", aboveColor: "#5aa8aa", variant: "dark" },
-      { label: "3", above: "LOCAL", aboveColor: "#5aa8aa", variant: "dark" },
-      { label: "EITC", variant: "accent" },
+      { label: "1", above: "GOV", aboveColor: "#5aa8aa", variant: "dark" },
+      { label: "2", above: "HHOLD", aboveColor: "#5aa8aa", variant: "dark" },
+      { label: "3", above: "MKTINC", aboveColor: "#5aa8aa", variant: "dark" },
+      { label: "VAT", variant: "accent" },
     ],
     [
       { label: "0", variant: "dark" },
@@ -167,9 +167,9 @@ function Calculator({
             <div className="rounded-[14px] border border-[#7b8b50] bg-[linear-gradient(180deg,#dbe4a8,#bdcb75_42%,#9caa5d)] p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.24),inset_0_-3px_10px_rgba(61,80,22,0.28)]">
               {/* Mode indicators */}
               <div className="flex items-center justify-between text-[6px] font-black uppercase tracking-[0.22em] text-[#263313]/60 px-1">
-                <span>US</span>
+                <span>US/UK</span>
                 <span>2026</span>
-                <span>Fed</span>
+                <span>All</span>
                 <span>Sim</span>
               </div>
               {/* Pixel display */}
@@ -456,7 +456,7 @@ export default function CalculatorPage() {
               variants={fadeUp}
               className="flex flex-col sm:flex-row items-center lg:items-start gap-3 pt-2"
             >
-              <p className="text-lg text-muted-foreground">From $1,299</p>
+              <p className="text-lg text-muted-foreground">From $1,299 / £1,049</p>
               <a
                 href="#preorder"
                 className="text-lg text-teal-400 hover:underline"
@@ -623,8 +623,8 @@ export default function CalculatorPage() {
           {(
             [
               [
-                "Real-time CBO scoring",
-                "Every keystroke updates the ten-year budget window.",
+                "Real-time budget scoring",
+                "Every keystroke updates the ten-year fiscal window.",
               ],
               [
                 "Benefit cliff alerts",
@@ -809,7 +809,7 @@ export default function CalculatorPage() {
           )}
 
           <p className="text-sm text-muted-foreground mt-6">
-            From $1,299. Trade in your TI-84 and save.
+            From $1,299 / £1,049. Trade in your TI-84 and save.
           </p>
         </Reveal>
       </section>
