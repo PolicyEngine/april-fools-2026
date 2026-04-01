@@ -44,9 +44,9 @@ function Reveal({
 /* ── Calculator device ─────────────────────────────────────────────── */
 
 function Calculator({
-  bodyFrom = "#2d2d31",
-  bodyVia = "#232327",
-  bodyTo = "#1c1c1f",
+  bodyFrom = "#282a32",
+  bodyVia = "#1f2128",
+  bodyTo = "#181a20",
   showGlow = true,
 }: {
   bodyFrom?: string;
@@ -54,36 +54,36 @@ function Calculator({
   bodyTo?: string;
   showGlow?: boolean;
 }) {
-  const buttons: { label: string; variant: "dark" | "light" | "teal" | "accent" }[][] = [
+  const buttons: { label: string; above?: string; aboveColor?: string; variant: "dark" | "light" | "teal" | "accent" }[][] = [
     [
-      { label: "GINI", variant: "teal" },
-      { label: "PVTY", variant: "teal" },
-      { label: "REV", variant: "teal" },
-      { label: "COST", variant: "teal" },
+      { label: "GINI", above: "THEIL", aboveColor: "#d3a347", variant: "teal" },
+      { label: "PVTY", above: "SPM", aboveColor: "#d3a347", variant: "teal" },
+      { label: "REV", above: "SPEND", aboveColor: "#d3a347", variant: "teal" },
+      { label: "COST", above: "DEBT", aboveColor: "#d3a347", variant: "teal" },
     ],
     [
-      { label: "7", variant: "dark" },
-      { label: "8", variant: "dark" },
-      { label: "9", variant: "dark" },
+      { label: "7", above: "TAX", aboveColor: "#5aa8aa", variant: "dark" },
+      { label: "8", above: "BEN", aboveColor: "#5aa8aa", variant: "dark" },
+      { label: "9", above: "INC", aboveColor: "#5aa8aa", variant: "dark" },
       { label: "UBI", variant: "accent" },
     ],
     [
-      { label: "4", variant: "dark" },
-      { label: "5", variant: "dark" },
-      { label: "6", variant: "dark" },
+      { label: "4", above: "MTR", aboveColor: "#5aa8aa", variant: "dark" },
+      { label: "5", above: "ATR", aboveColor: "#5aa8aa", variant: "dark" },
+      { label: "6", above: "PTR", aboveColor: "#5aa8aa", variant: "dark" },
       { label: "CTC", variant: "accent" },
     ],
     [
-      { label: "1", variant: "dark" },
-      { label: "2", variant: "dark" },
-      { label: "3", variant: "dark" },
+      { label: "1", above: "FED", aboveColor: "#5aa8aa", variant: "dark" },
+      { label: "2", above: "STATE", aboveColor: "#5aa8aa", variant: "dark" },
+      { label: "3", above: "LOCAL", aboveColor: "#5aa8aa", variant: "dark" },
       { label: "EITC", variant: "accent" },
     ],
     [
       { label: "0", variant: "dark" },
       { label: ".", variant: "dark" },
       { label: "REFORM", variant: "light" },
-      { label: "SIM", variant: "accent" },
+      { label: "SIM", above: "RUN", aboveColor: "#d3a347", variant: "accent" },
     ],
   ];
 
@@ -120,21 +120,25 @@ function Calculator({
       <div
         className="relative w-[330px] overflow-hidden px-4 pb-5 pt-5 shadow-[0_55px_120px_rgba(0,0,0,0.62),0_8px_20px_rgba(0,0,0,0.35)]"
         style={{
-          borderRadius: "40px 40px 34px 34px",
+          borderRadius: "44px 44px 30px 30px",
           backgroundImage: `linear-gradient(180deg, ${bodyFrom}, ${bodyVia} 48%, ${bodyTo}), radial-gradient(circle at 18% 10%, rgba(255,255,255,0.18), transparent 28%), repeating-linear-gradient(135deg, rgba(255,255,255,0.018) 0 10px, rgba(0,0,0,0.018) 10px 20px)`,
         }}
       >
-        {/* Inner light + shadow */}
+        {/* Edge highlights — 3D curvature illusion */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            borderRadius: "40px 40px 34px 34px",
-            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.16), inset 0 -16px 24px rgba(0,0,0,0.24)",
+            borderRadius: "44px 44px 30px 30px",
+            boxShadow: "inset 0 2px 0 rgba(255,255,255,0.18), inset 0 -20px 30px rgba(0,0,0,0.28), inset 2px 0 0 rgba(255,255,255,0.06), inset -2px 0 0 rgba(255,255,255,0.03)",
           }}
         />
-        <div className="absolute inset-[1px] pointer-events-none border border-black/28" style={{ borderRadius: "39px 39px 33px 33px" }} />
-        {/* Top shadow */}
-        <div className="absolute left-10 right-10 top-3 h-[9px] rounded-full bg-black/18 blur-[3px] pointer-events-none" />
+        {/* Inner seam */}
+        <div className="absolute inset-[1px] pointer-events-none border border-black/30" style={{ borderRadius: "43px 43px 29px 29px" }} />
+        {/* Top highlight reflection */}
+        <div className="absolute left-8 right-8 top-2 h-[12px] rounded-full bg-white/[0.06] blur-[4px] pointer-events-none" />
+        {/* Side edge shadows */}
+        <div className="absolute left-0 top-[60px] bottom-[40px] w-[6px] bg-gradient-to-r from-black/20 to-transparent pointer-events-none" style={{ borderRadius: "44px 0 0 30px" }} />
+        <div className="absolute right-0 top-[60px] bottom-[40px] w-[6px] bg-gradient-to-l from-black/12 to-transparent pointer-events-none" style={{ borderRadius: "0 44px 30px 0" }} />
 
         {/* Inner bezel */}
         <div className="relative rounded-[28px] border border-black/35 bg-[linear-gradient(180deg,rgba(103,108,118,0.26),rgba(35,37,41,0.18))] px-4 pb-4 pt-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),inset_0_-14px_20px_rgba(0,0,0,0.18)]">
@@ -187,23 +191,41 @@ function Calculator({
             </div>
           </div>
 
-          {/* Keypad — clean 4-column grid */}
-          <div className="mt-4 space-y-[7px]">
+          {/* Keypad — TI-84 style with secondary labels */}
+          <div className="mt-4 space-y-[5px]">
             {buttons.map((row, ri) => (
-              <div key={ri} className="grid grid-cols-4 gap-[7px]">
-                {row.map((key) => {
-                  const s = btnStyles[key.variant];
-                  return (
-                    <button
-                      key={key.label}
-                      type="button"
-                      className={`h-[44px] rounded-[14px] border text-[11px] font-semibold tracking-[0.06em] shadow-[0_4px_8px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.14)] active:translate-y-[1px] transition-transform ${s.className}`}
-                      style={{ backgroundImage: s.bg }}
-                    >
-                      {key.label}
-                    </button>
-                  );
-                })}
+              <div key={ri}>
+                {/* Secondary function labels printed on face plate */}
+                <div className="grid grid-cols-4 gap-[7px] mb-[3px] px-[2px]">
+                  {row.map((key) => (
+                    <div key={`above-${key.label}`} className="text-center h-[10px]">
+                      {key.above && (
+                        <span
+                          className="text-[7px] font-bold tracking-[0.15em] uppercase"
+                          style={{ color: key.aboveColor ?? "#5aa8aa" }}
+                        >
+                          {key.above}
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                {/* Button row — flat pills like real TI-84 */}
+                <div className="grid grid-cols-4 gap-[7px]">
+                  {row.map((key) => {
+                    const s = btnStyles[key.variant];
+                    return (
+                      <button
+                        key={key.label}
+                        type="button"
+                        className={`h-[36px] rounded-[8px] border text-[11px] font-semibold tracking-[0.06em] shadow-[0_3px_6px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.12),inset_0_-1px_2px_rgba(0,0,0,0.2)] active:translate-y-[1px] active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)] transition-all ${s.className}`}
+                        style={{ backgroundImage: s.bg }}
+                      >
+                        {key.label}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             ))}
           </div>
