@@ -1,3 +1,6 @@
+import { PolicyEngineShell } from "@policyengine/ui-kit/layout";
+import "@policyengine/ui-kit/styles.css";
+
 import type { Metadata } from "next";
 import "./globals.css";
 
@@ -20,7 +23,9 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-sans">{children}</body>
+      <body className="font-sans">
+        <PolicyEngineShell country="us">{children}        </PolicyEngineShell>
+      </body>
     </html>
   );
 }
