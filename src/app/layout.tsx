@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import PolicyEngineHeader from "../components/PolicyEngineHeader";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -21,10 +20,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-sans">
-        <PolicyEngineHeader />
-        {children}
-      </body>
+      <body className="font-sans">{children}</body>
     </html>
   );
 }
